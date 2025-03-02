@@ -1,0 +1,87 @@
+.match-card {
+    padding: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border: 1px solid #ccc;
+    border-radius: 30px;
+    gap: 1rem;
+    background-color: white;
+    z-index: 2;
+    position: relative;
+}
+
+.team-container {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.team-icon {
+    width: 25px;
+    height: 25px;
+    border-radius: 50%;
+    border: 1px solid #ccc;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+}
+
+.match-odds-container {
+    display: flex;
+    border-bottom: 1px solid #ccc;
+    border-right: 1px solid #ccc;
+    border-left: 1px solid #ccc;
+    border-radius: 0 0 30px 30px;
+    overflow: hidden;
+    background-color: white;
+    position: relative;
+    top: -25px;
+    z-index: 1;
+}
+
+.match-odds-box {
+    text-align: center;
+    padding: 30px 0 10px 0;
+    font-weight: bold;
+    width: calc(100% / 3);
+    cursor: pointer;
+    transition: background-color 0.2s ease-in-out;
+}
+
+.match-odds-box:first-child {
+    border-right: 1px solid #ccc;
+}
+
+.match-odds-box:last-child {
+    border-left: 1px solid #ccc;
+}
+
+.match-odds-box:hover {
+    background-color: #ddd;
+    cursor: pointer;
+}
+
+.match-odds-box.selected {
+    background-color: #ddd;
+    cursor: pointer;
+}
+
+.outcome-container {
+    display: flex;
+    border-bottom: 1px solid #ccc;
+    border-right: 1px solid #ccc;
+    border-left: 1px solid #ccc;
+    border-radius: 0 0 30px 30px;
+    position: relative;
+    top: -50px;
+    z-index: -2;
+    overflow: hidden;
+}
+
+.outcome-box {
+    text-align: center;
+    padding: 30px 0 10px 0;
+    font-weight: bold;
+}
