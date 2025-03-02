@@ -1,0 +1,61 @@
+.empty-player-icon{
+    padding: 0.5rem;
+    border: 1px  solid #ccc;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.player-icon{
+    padding: 0.5rem;
+    border: 1px  solid #ccc;
+    border-radius: 4px;
+    color: red;
+}
+
+.modal {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: rgba(100, 100, 111, 0.3) 0px 7px 29px 0px;
+    background-color: white;
+    border: 2px solid rgb(240, 240, 240);
+    border-radius: 12px;
+    position: absolute;
+    width: 500px;
+    top: 70px;
+    left: calc(50% - 250px);
+    bottom: 70px;
+    flex-direction: column;
+    padding: 1rem;
+}
+
+.modal-header{
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    align-items: center;
+}
+
+.modal-body{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+}
+.grid-container-players {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+    gap: 1rem;
+}
+
+.player-selector{
+    cursor: pointer;
+}
+
+.player-selector:hover{
+    background-color: #ccc;
+}
+
+.player-selector.selected{
+    background-color: yellow;
+}

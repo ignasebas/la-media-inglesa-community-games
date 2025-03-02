@@ -133,7 +133,6 @@ const Predictions: React.FC = () => {
             </div>
             <div style={{display: 'flex', gap: '1rem', justifyContent: 'center'}}>
                 <Button text="Submit Predictions" clickFunction={clickFunction} />
-                <Button text="See Predictions Ranking" link="/predictions-ranking"/>
             </div>
         </div>
     );

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { JSX } from 'react';
 import { Link } from 'react-router-dom';
 import './Button.css';
 
@@ -8,7 +8,7 @@ interface ButtonProps {
     clickFunction?: () => void;
 }
 
-const Button: React.FC<ButtonProps> = ({ text, link=null, clickFunction=null}) => {
+const Button: React.FC<ButtonProps> = ({ text, link=null, clickFunction=null}):JSX.Element => {
     return (
         <>
             {link ? (
