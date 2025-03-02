@@ -2,12 +2,13 @@ import { useState } from "react";
 import "./MatchCard.css";
 
 interface MatchCardProps {
-    team1: {
+    id: string,
+    home: {
         team: string;
         bgColor: string;
         txtColor: string;
     };
-    team2: {
+    away: {
         team: string;
         bgColor: string;
         txtColor: string;
@@ -17,9 +18,10 @@ interface MatchCardProps {
         draw: number;
         away: number;
     };
+    handlePredictionChange: (string:string, outcome: "home" | "draw" | "away") => void;
 }
 
-const MatchCard: React.FC<MatchCardProps> = ({ team1, team2, odds }) => {
+const MatchCard: React.FC<MatchCardProps> = ({ id, home, away, odds, handlePredictionChange }) => {
     const [totalOdds, setTotalOdds] = useState(odds.home + odds.draw + odds.away);
     const [homePercentage, setHomePercentage] = useState(`${(odds.home / totalOdds * 100).toFixed(2)}%`);
     const [drawPercentage, setDrawPercentage] = useState(`${(odds.draw / totalOdds * 100).toFixed(2)}%`);
@@ -47,22 +49,24 @@ const MatchCard: React.FC<MatchCardProps> = ({ team1, team2, odds }) => {
         setHomePercentage(`${((odds.home / newTotalOdds) * 100).toFixed(2)}%`);
         setDrawPercentage(`${((odds.draw / newTotalOdds) * 100).toFixed(2)}%`);
         setAwayPercentage(`${((odds.away / newTotalOdds) * 100).toFixed(2)}%`);
+
+        handlePredictionChange(id, outcome);
     };
 
     return (
-        <>
+        <div>
             <div className="match-card">
                 <div className="team-container">
-                    <span className="team-icon" style={{ backgroundColor: team1.bgColor, color: team1.txtColor }}>
-                        {team1.team.charAt(0)}
+                    <span className="team-icon" style={{ backgroundColor: home.bgColor, color: home.txtColor }}>
+                        {home.team.charAt(0)}
                     </span>
-                    <span>{team1.team}</span>
+                    <span>{home.team}</span>
                 </div>
                 <span>vs</span>
                 <div className="team-container">
-                    <span>{team2.team}</span>
-                    <span className="team-icon" style={{ backgroundColor: team2.bgColor, color: team2.txtColor }}>
-                        {team2.team.charAt(0)}
+                    <span>{away.team}</span>
+                    <span className="team-icon" style={{ backgroundColor: away.bgColor, color: away.txtColor }}>
+                        {away.team.charAt(0)}
                     </span>
                 </div>
             </div>
@@ -81,18 +85,18 @@ const MatchCard: React.FC<MatchCardProps> = ({ team1, team2, odds }) => {
 
             {outcomeSubmission && (
                 <div className="outcome-container">
-                    <div className="outcome-box" style={{ width: homePercentage, backgroundColor: team1.bgColor, color: team1.txtColor }}>
+                    <div className="outcome-box" style={{ width: homePercentage, backgroundColor: home.bgColor, color: home.txtColor }}>
                         {homePercentage}
                     </div>
                     <div className="outcome-box" style={{ width: drawPercentage, backgroundColor: "#e0e0e0" }}>
                         {drawPercentage}
                     </div>
-                    <div className="outcome-box" style={{ width: awayPercentage, backgroundColor: team2.bgColor, color: team2.txtColor }}>
+                    <div className="outcome-box" style={{ width: awayPercentage, backgroundColor: away.bgColor, color: away.txtColor }}>
                         {awayPercentage}
                     </div>
                 </div>
             )}
-        </>
+        </div>
     );
 };
 
