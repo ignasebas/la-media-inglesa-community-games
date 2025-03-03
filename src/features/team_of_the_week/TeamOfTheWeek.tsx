@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useEffect, useState } from "react";
 import Button from "../../compoments/Button";
 import PlayerIcon from "../../compoments/PlayerIcon";
 import { createPortal } from "react-dom";
@@ -18,7 +18,9 @@ interface Player {
     image?: string;
 }
 
-const TeamOfTheWeek: React.FC = () => {
+function TeamOfTheWeek() {
+    const [loading, setLoading] = useState<boolean>(true);
+    const [error, setError] = useState<string | null>(null);
     const [showModal, setShowModal] = useState(false);
     const [selectedPlayer, setSelectedPlayer] = useState<string | null>(null);
     const [numberOfPlayers, setNumberOfPlayers] = useState<Formation>({
@@ -28,21 +30,28 @@ const TeamOfTheWeek: React.FC = () => {
         goalkeepers: 1
     });
 
-    const [playersList, setPlayersList] = useState<Array<Player>>([
-        { id: "1", name: "Erling Haaland", image: "https://static.vecteezy.com/system/resources/previews/046/462/616/non_2x/smiling-soccer-player-holding-a-soccer-ball-on-transparent-background-png.png" },
-        { id: "2", name: "Mohamed Salah", image: "https://static.vecteezy.com/system/resources/previews/046/462/616/non_2x/smiling-soccer-player-holding-a-soccer-ball-on-transparent-background-png.png" },
-        { id: "3", name: "Kevin De Bruyne", image: "https://static.vecteezy.com/system/resources/previews/046/462/616/non_2x/smiling-soccer-player-holding-a-soccer-ball-on-transparent-background-png.png" },
-        { id: "4", name: "Harry Kane", image: "https://static.vecteezy.com/system/resources/previews/046/462/616/non_2x/smiling-soccer-player-holding-a-soccer-ball-on-transparent-background-png.png" },
-        { id: "5", name: "Virgil van Dijk", image: "https://static.vecteezy.com/system/resources/previews/046/462/616/non_2x/smiling-soccer-player-holding-a-soccer-ball-on-transparent-background-png.png" },
-        { id: "6", name: "Bruno Fernandes", image: "https://static.vecteezy.com/system/resources/previews/046/462/616/non_2x/smiling-soccer-player-holding-a-soccer-ball-on-transparent-background-png.png" },
-        { id: "7", name: "Bukayo Saka", image: "https://static.vecteezy.com/system/resources/previews/046/462/616/non_2x/smiling-soccer-player-holding-a-soccer-ball-on-transparent-background-png.png" },
-        { id: "8", name: "Son Heung-min", image: "https://static.vecteezy.com/system/resources/previews/046/462/616/non_2x/smiling-soccer-player-holding-a-soccer-ball-on-transparent-background-png.png" },
-        { id: "9", name: "Marcus Rashford", image: "https://static.vecteezy.com/system/resources/previews/046/462/616/non_2x/smiling-soccer-player-holding-a-soccer-ball-on-transparent-background-png.png" },
-        { id: "10", name: "Phil Foden", image: "https://static.vecteezy.com/system/resources/previews/046/462/616/non_2x/smiling-soccer-player-holding-a-soccer-ball-on-transparent-background-png.png" },
-        { id: "11", name: "Trent Alexander-Arnold", image: "https://static.vecteezy.com/system/resources/previews/046/462/616/non_2x/smiling-soccer-player-holding-a-soccer-ball-on-transparent-background-png.png" },
-        { id: "12", name: "Rúben Dias", image: "https://static.vecteezy.com/system/resources/previews/046/462/616/non_2x/smiling-soccer-player-holding-a-soccer-ball-on-transparent-background-png.png" },
-    ])
+    const [playersList, setPlayersList] = useState<Array<Player>>([]);
 
+    useEffect(() => {
+        const fetchPlayers = async () => {
+            try {
+                const response = await fetch("http://127.0.0.1:5000/players");
+                if (!response.ok) {
+                    throw new Error("Error fetching the players");
+                }
+                const { value }: { value: Player[] } = await response.json();
+                setPlayersList(value);
+            }
+            catch (err: any) {
+                console.error(err);
+                setError(err.message || "Unknown Error");
+            } finally {
+                setLoading(false)
+            }
+        }
+
+        fetchPlayers();
+    }, [])
     const [playersOfTheWeek, setPlayersOfTheWeek] = useState<Player[]>(
         Array.from({ length: 11 }, (_, index) => ({
             index: (index + 1),
@@ -107,12 +116,14 @@ const TeamOfTheWeek: React.FC = () => {
         }
     };
     
-      
+    if (loading) return <p>Loading players...</p>;
+    if (error) return <p>{error}</p>;
+
     return (
         <div style={{padding: '1rem'}}>
             <h1>Team Of The Week</h1>
             <div style={{display: 'flex', justifyContent: 'space-between', gap: '1rem'}}>
-                <div style={{display: "flex", flexDirection: "column", flexGrow: "1"}}>
+                <div style={{display: "flex", flexDirection: "column"}}>
                     <h2>Formation</h2>
                     <p>Select how many players will be in each position</p>
                     <div style={{display: 'flex', gap: '1rem', alignItems: 'center', height: '136px', marginBottom: '1rem'}}>

@@ -18,10 +18,10 @@ interface MatchCardProps {
         draw: number;
         away: number;
     };
-    handlePredictionChange: (string:string, outcome: "home" | "draw" | "away") => void;
+    handlePredictionChange?: (string:string, outcome: "home" | "draw" | "away") => void;
 }
 
-const MatchCard: React.FC<MatchCardProps> = ({ id, home, away, odds, handlePredictionChange }) => {
+function MatchCard ({ id, home, away, odds, handlePredictionChange }:MatchCardProps) {
     const [totalOdds, setTotalOdds] = useState(odds.home + odds.draw + odds.away);
     const [homePercentage, setHomePercentage] = useState(`${(odds.home / totalOdds * 100).toFixed(2)}%`);
     const [drawPercentage, setDrawPercentage] = useState(`${(odds.draw / totalOdds * 100).toFixed(2)}%`);
@@ -50,7 +50,7 @@ const MatchCard: React.FC<MatchCardProps> = ({ id, home, away, odds, handlePredi
         setDrawPercentage(`${((odds.draw / newTotalOdds) * 100).toFixed(2)}%`);
         setAwayPercentage(`${((odds.away / newTotalOdds) * 100).toFixed(2)}%`);
 
-        handlePredictionChange(id, outcome);
+        handlePredictionChange && handlePredictionChange(id, outcome);
     };
 
     return (

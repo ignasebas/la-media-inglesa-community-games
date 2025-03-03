@@ -1,7 +1,55 @@
+import { useEffect, useState } from "react";
 import Button from "./Button"
 import MatchCard from "./MatchCard"
 
-const Home: React.FC = () => {
+interface Fixture {
+    id: string;
+    homeTeam: {
+        team: string;
+        bgColor: string;
+        txtColor: string;
+    };
+    awayTeam: {
+        team: string;
+        bgColor: string;
+        txtColor: string;
+    };
+    odds: {
+        home: number;
+        draw: number;
+        away: number;
+    };
+    date: string;
+    hour: string;
+}
+
+function Home() {
+    const [loading, setLoading] = useState<boolean>(true);
+    const [error, setError] = useState<string | null>(null);
+    const [listOfFixtures, setListOfFixtures] = useState<Fixture[]>([]);
+
+    useEffect(() => {
+        const fetchFixtures = async () => {
+            try {
+                const response = await fetch("http://127.0.0.1:5000/games");
+                if (!response.ok) {
+                    throw new Error("Error fetching the fixtures");
+                }
+                const { value }: { value: Fixture[] } = await response.json();
+                setListOfFixtures(value);
+            } catch (err: any) {
+                console.error(err);
+                setError(err.message || "Unknown Error");
+            } finally {
+                setLoading(false);
+            }
+        };
+    
+        fetchFixtures();
+    }, []); 
+
+    if (loading) return <p>Loading...</p>;
+    if (error) return <p>{error}</p>;
     return (
         <div style={{padding: '1rem', flexDirection: 'column', display: 'flex', justifyContent: 'center'}}>
             <div style={{display: 'flex', flexDirection: 'column', alignItems: 'center'}}>
@@ -15,9 +63,15 @@ const Home: React.FC = () => {
                         <p>Make your predictions for the upcoming games</p>
                     </div>
                     <div>
-                        <MatchCard id="1" home={{team: "Wolverhampton Wanderers", bgColor: "orange", txtColor: "white"}} away={{team: "Brighton & Hove Albion", bgColor: "blue", txtColor: "white"}} odds={{home: 50, draw: 30, away: 20}} handlePredictionChange={() => console.log("Prueba")}/>
-                        <MatchCard id="2" home={{team: "Manchester City", bgColor: "skyblue", txtColor: "black"}} away={{team: "Liverpool", bgColor: "red", txtColor: "white"}} odds={{home: 40, draw: 30, away: 30}} handlePredictionChange={() => console.log("Prueba")}/>
-                        <MatchCard id="3" home={{team: "Arsenal", bgColor: "red", txtColor: "white"}} away={{team: "Tottenham", bgColor: "white", txtColor: "black"}} odds={{home: 40, draw: 30, away: 30}} handlePredictionChange={() => console.log("Prueba")}/>
+                        {listOfFixtures.slice(0, 3).map((fixture, index) => (
+                            <MatchCard
+                                key={index}
+                                id={fixture.id}
+                                home={fixture.homeTeam}
+                                away={fixture.awayTeam}
+                                odds={fixture.odds}
+                            />
+                        ))}
                     </div>
                     <Button text="Make Your Predictions" link="/predictions" />
                 </div>

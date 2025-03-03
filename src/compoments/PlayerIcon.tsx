@@ -5,8 +5,14 @@ interface Player {
     position?: string;
     image?: string;
 }
+
+interface PlayerIconProps {
+    positionIndex: string;
+    player: Player;
+    handleModalSelection: (value:boolean, positionIndex:string)=>void;
+}
   
-const PlayerIcon: React.FC<{ positionIndex: string, player: Player, handleModalSelection: (value:boolean, positionIndex:string)=>void}> = ({ positionIndex, player, handleModalSelection }) => {
+function PlayerIcon ({ positionIndex, player, handleModalSelection }:PlayerIconProps) {
     return (
         <>
             {player.name ? (

@@ -1,26 +1,20 @@
 # La Media Inglesa Community Games
 
-Bienvenido a **La Media Inglesa Community Games**, una plataforma interactiva donde los seguidores de La Media Inglesa pueden participar en distintos juegos relacionados con el fútbol y la comunidad. Creé este proyecto porque necesito practicar para una entrevista, creo que puede estar guay.
+**Nota:** Este no es un proyecto oficial, es solo para practicar para una entrevista.
+
+Bienvenido a **La Media Inglesa Community Games**, una plataforma interactiva donde los seguidores de La Media Inglesa pueden participar en distintos juegos relacionados con el fútbol y la comunidad.
 
 ## 🚀 Características
 
 - 🎮 Juegos interactivos y dinámicos.
 - 📊 Clasificaciones y puntuaciones en tiempo real.
 - 🤝 Experiencia comunitaria para competir y divertirse con otros usuarios.
-- 🛠️ Código open-source para que cualquiera pueda contribuir.
-
-## ⚙️ Tecnologías utilizadas
-
-- React con Vite para una carga rápida y desarrollo eficiente.
-- Soporte para Fast Refresh con `@vitejs/plugin-react`.
-- Opcionalmente, puedes activar `@vitejs/plugin-react-swc` para mayor rendimiento en la compilación.
-- ESLint configurado para mantener un código limpio.
 
 ## 📥 Instalación y Uso
 
 1. Clona este repositorio:
    ```bash
-   git clone https://github.com/tu-usuario/La-Media-Inglesa-Community-Games.git
+   git clone https://github.com/ignasebas/La-Media-Inglesa-Community-Games.git
    ```
 2. Accede al directorio del proyecto:
    ```bash
@@ -34,18 +28,6 @@ Bienvenido a **La Media Inglesa Community Games**, una plataforma interactiva do
    ```bash
    npm run dev
    ```
-
-## 🔍 Estilo de Código
-
-- Se recomienda usar ESLint para mantener un código limpio y consistente.
-- Puedes instalar y configurar ESLint con:
-  ```bash
-  npm install eslint --save-dev
-  ```
-- Si quieres reglas más avanzadas, considera `eslint-plugin-react-x` y `eslint-plugin-react-dom`:
-  ```bash
-  npm install eslint-plugin-react-x eslint-plugin-react-dom --save-dev
-  ```
 
 ## 🤝 Contribuciones
 
@@ -61,27 +43,21 @@ Bienvenido a **La Media Inglesa Community Games**, una plataforma interactiva do
 
 # La Media Inglesa Community Games (English)
 
-Welcome to **La Media Inglesa Community Games**, an interactive platform where La Media Inglesa followers can participate in various football-related games and community challenges. I created this project because I need to practice for an interview, and I think it could be cool.
+**Note:** This is not an official project, it is just for practicing for an interview.
+
+Welcome to **La Media Inglesa Community Games**, an interactive platform where La Media Inglesa followers can participate in various football-related games and community challenges.
 
 ## 🚀 Features
 
 - 🎮 Engaging and interactive games.
 - 📊 Real-time leaderboards and scores.
 - 🤝 Community-driven experience to compete and have fun with others.
-- 🛠️ Open-source project allowing contributions from anyone.
-
-## ⚙️ Technologies Used
-
-- React with Vite for fast development and loading times.
-- Fast Refresh support with `@vitejs/plugin-react`.
-- Optionally, you can enable `@vitejs/plugin-react-swc` for even faster compilation.
-- ESLint configured for clean code.
 
 ## 📥 Installation & Usage
 
 1. Clone this repository:
    ```bash
-   git clone https://github.com/your-username/La-Media-Inglesa-Community-Games.git
+   git clone https://github.com/ignasebas/La-Media-Inglesa-Community-Games.git
    ```
 2. Navigate into the project folder:
    ```bash
@@ -95,18 +71,6 @@ Welcome to **La Media Inglesa Community Games**, an interactive platform where L
    ```bash
    npm run dev
    ```
-
-## 🔍 Code Style
-
-- ESLint is recommended to maintain a clean and consistent code style.
-- Install and configure ESLint with:
-  ```bash
-  npm install eslint --save-dev
-  ```
-- For advanced rules, consider `eslint-plugin-react-x` and `eslint-plugin-react-dom`:
-  ```bash
-  npm install eslint-plugin-react-x eslint-plugin-react-dom --save-dev
-  ```
 
 ## 🤝 Contributing
 

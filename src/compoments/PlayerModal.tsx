@@ -1,4 +1,4 @@
-import { JSX, useState } from "react";
+import { useState } from "react";
 
 interface Player {
     index?: number;
@@ -8,7 +8,13 @@ interface Player {
     image?: string;
 }
 
-const PlayerModal = ({ onClose, addPlayer, playersList}: { onClose: () => void, addPlayer: (player: Player) => void, playersList: Player[]}): JSX.Element => {
+interface PlayerModalProps {
+    onClose: () => void;
+    addPlayer: (player: Player) => void;
+    playersList: Player[];
+}
+
+function PlayerModal ({ onClose, addPlayer, playersList}: PlayerModalProps) {
     const [searchTerm, setSearchTerm] = useState<string>("")
     const [choosenPlayer, setChoosenPlayer] = useState<Player>()
     
@@ -35,28 +41,31 @@ const PlayerModal = ({ onClose, addPlayer, playersList}: { onClose: () => void, 
 
     console.log("Players List: ", playersList)
     return (
-      <div className="modal" onClick={(e) => e.stopPropagation()}>
-        <div className="modal-header">
-            <div style={{width:"45px", height: "45px"}}></div>
-            <h2>Select Player</h2>
-            <button style={{width:"45px", height: "45px"}} onClick={handleClose}>X</button>
-        </div>
-        <div className="modal-body">
-            <div style={{marginBottom:"1rem"}}>
-                <input placeholder="Search..." value={searchTerm} onChange={(e) => handlePlayerSearch(e.target.value)}/>
+        <div className="modal" onClick={(e) => e.stopPropagation()}>
+            <div className="modal-header">
+                <div style={{ width:"45px", height: "45px" }}></div>
+                <h2>Select Player</h2>
+                <button style={{ width:"45px", height: "45px" }} onClick={handleClose}>X</button>
             </div>
-            <div className="grid-container-players">
-                {filteredList.map((player, index) => (
-                    <div key={index} className={`player-selector ${choosenPlayer === player ? "selected" : ""}`} style={{cursor:"pointer"}} onClick={() => setChoosenPlayer(player)}>
-                        {player.name}
-                    </div>
-                ))}
+            <div className="modal-body">
+                <div className="input-container">
+                    <input placeholder="Search..." value={searchTerm} onChange={(e) => handlePlayerSearch(e.target.value)} />
+                </div>
+                <div className="grid-container-players">
+                    {filteredList.map((player, index) => (
+                        <div key={index} style={{ display:"flex", flexDirection:"column", alignItems:"center", cursor:"pointer",  backgroundColor: `${choosenPlayer === player ? "yellow" : ""}`}} onClick={() => setChoosenPlayer(player)}>
+                            <img src={player.image} alt={player.name} style={{ maxWidth:"100px", maxHeight:"100px" }} />
+                            <div className="empty-player-icon">
+                                <span>{player.name}</span>
+                            </div>
+                        </div>
+                    ))}
+                </div>
+            </div>
+            <div className="modal-footer">
+                <a className={`secondary-button ${choosenPlayer ? "" : "disabled"}`} onClick={() => choosenPlayer && handleAddPlayer(choosenPlayer)}>Add Player</a>
             </div>
         </div>
-        <div>
-            <a className={`secondary-button ${choosenPlayer ? "" : "disabled"}`} onClick={() => choosenPlayer && handleAddPlayer(choosenPlayer)}>Add Player</a>
-        </div>
-      </div>
     );
 }
 
