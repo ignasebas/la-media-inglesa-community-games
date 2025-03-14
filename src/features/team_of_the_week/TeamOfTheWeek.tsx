@@ -121,10 +121,10 @@ function TeamOfTheWeek() {
 
     return (
         <div style={{padding: '1rem'}}>
-            <h1>Team Of The Week</h1>
+            <h1>TEAM OF THE WEEK</h1>
             <div style={{display: 'flex', justifyContent: 'space-between', gap: '1rem'}}>
                 <div style={{display: "flex", flexDirection: "column"}}>
-                    <h2>Formation</h2>
+                    <h2>FORMATION</h2>
                     <p>Select how many players will be in each position</p>
                     <div style={{display: 'flex', gap: '1rem', alignItems: 'center', height: '136px', marginBottom: '1rem'}}>
                         <h4>Strikers</h4>
@@ -144,7 +144,7 @@ function TeamOfTheWeek() {
                     </div>
                 </div>
                 <div style={{display: "flex", flexDirection: "column", flexGrow: "1"}}>
-                    <h2>Players</h2>
+                    <h2>PLAYERS</h2>
                     <p>Choose your players for each position by clicking on the player icon</p>
                     <div>
                         <div style={{ display: 'flex', width: '100%', justifyContent: 'space-evenly', alignItems: 'center', marginBottom: '1rem' }}>

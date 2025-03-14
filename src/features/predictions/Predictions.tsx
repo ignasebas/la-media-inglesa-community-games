@@ -70,7 +70,7 @@ function Predictions() {
     return (
         <div style={{ padding: "1rem" }}>
             <div style={{display: 'flex', alignItems: 'center', flexDirection: 'column', marginBottom: '1rem'}}>
-                <h1>Predictions</h1>
+                <h1>PREDICTIONS</h1>
                 <p>Make your predictions for the upcoming games</p>
             </div>
             <div className="grid-container">
