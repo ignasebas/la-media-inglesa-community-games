@@ -31,14 +31,14 @@ function Navbar() {
                         className="navbar-link"
                         onClick={() => setIsOpen(false)}
                     >
-                        Team of the week
+                        TEAM OF THE WEEK
                     </Link>
                     <Link 
                         to="/predictions" 
                         className="navbar-link"
                         onClick={() => setIsOpen(false)}
                     >
-                        Predictions
+                        PREDICTION
                     </Link>
                 </div>
                 <div className={`navbar-right ${isOpen ? 'open' : ''}`}>
@@ -47,25 +47,25 @@ function Navbar() {
                             className="profile-button"
                             onClick={handleProfileClick}
                         >
-                            Profile
+                            PROFILE
                         </button>
                         {showDropdown && (
                             <div className="profile-dropdown">
                                 {isAuthenticated ? (
                                     <>
                                         <Link to="/edit-profile" className="dropdown-item">
-                                            Edit Profile
+                                            EDIT PROFILE
                                         </Link>
                                         <button 
                                             className="dropdown-item"
                                             onClick={logout}
                                         >
-                                            Logout
+                                            LOGOUT
                                         </button>
                                     </>
                                 ) : (
                                     <Link to="/login" className="dropdown-item">
-                                        Login
+                                        LOGIN
                                     </Link>
                                 )}
                             </div>

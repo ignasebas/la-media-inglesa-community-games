@@ -1,6 +1,6 @@
 # La Media Inglesa Community Games
 
-**Nota:** Este no es un proyecto oficial, es solo para practicar para una entrevista.
+**Nota:** Este no es un proyecto oficial, es solo para practicar para una entrevista. Al final se me rechazó la oferta de trabajo, así que ya que estamos, lo terminamos.
 
 Bienvenido a **La Media Inglesa Community Games**, una plataforma interactiva donde los seguidores de La Media Inglesa pueden participar en distintos juegos relacionados con el fútbol y la comunidad.
 
@@ -43,7 +43,7 @@ Bienvenido a **La Media Inglesa Community Games**, una plataforma interactiva do
 
 # La Media Inglesa Community Games (English)
 
-**Note:** This is not an official project, it is just for practicing for an interview.
+**Note:** This is not an official project, it is just for practicing for an interview. In the end, I was rejected from the job offer, so since we're at it, let's finish it.
 
 Welcome to **La Media Inglesa Community Games**, an interactive platform where La Media Inglesa followers can participate in various football-related games and community challenges.
 

@@ -81,6 +81,8 @@ function Predictions() {
                         home={fixture.homeTeam}
                         away={fixture.awayTeam}
                         odds={fixture.odds}
+                        date={fixture.date}
+                        hour={fixture.hour}
                         handlePredictionChange={handlePredictionChange}
                     />
                 ))}
