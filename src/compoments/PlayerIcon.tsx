@@ -17,7 +17,7 @@ function PlayerIcon ({ positionIndex, player, handleModalSelection }:PlayerIconP
         <>
             {player.name ? (
                 <div style={{display:"flex", flexDirection:"column", alignItems:"center", cursor:"pointer"}} onClick={() => handleModalSelection(true, positionIndex)}>
-                    <img src={player.image} alt={player.name} style={{maxWidth:"100px", maxHeight:"100px"}}/>
+                    <img src={player.image} alt={player.name} style={{maxWidth:"75px", maxHeight:"75px"}}/>
                     <div className="player-icon">
                         <span>{player.name}</span>
                     </div>
@@ -25,7 +25,7 @@ function PlayerIcon ({ positionIndex, player, handleModalSelection }:PlayerIconP
                 
             ):(
                 <div style={{display:"flex", flexDirection:"column", alignItems:"center", cursor:"pointer"}} onClick={() => handleModalSelection(true, positionIndex)}>
-                    <img src="https://static.vecteezy.com/system/resources/thumbnails/024/983/914/small_2x/simple-user-default-icon-free-png.png" alt={player.name} style={{maxWidth:"100px", maxHeight:"100px"}}/>
+                    <img src="https://static.vecteezy.com/system/resources/thumbnails/024/983/914/small_2x/simple-user-default-icon-free-png.png" alt={player.name} style={{maxWidth:"75px", maxHeight:"75px"}}/>
                     <div className="empty-player-icon">
                         <span>Player {positionIndex}</span>
                     </div>
