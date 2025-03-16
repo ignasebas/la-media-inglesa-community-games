@@ -1,5 +1,5 @@
 import "./PlayerIcon.css"
-import { Player } from "../types/Player";
+import { Player } from "../../../types/Player";
 
 interface PlayerIconProps {
     positionIndex: string;

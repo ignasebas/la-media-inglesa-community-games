@@ -121,13 +121,8 @@
 .submit-button-container {
     display: flex;
     justify-content: center;
+    gap: 1rem;
     margin-top: 2rem;
-}
-
-@media (max-width: 1024px) {
-    .team-of-the-week-container {
-        gap: 1.5rem;
-    }
 }
 
 @media (max-width: 768px) {

@@ -1,9 +1,10 @@
 import { useEffect, useState } from "react";
 import Button from "../../compoments/Button";
-import PlayerIcon from "../../compoments/PlayerIcon";
+import PlayerIcon from "./components/PlayerIcon";
 import { createPortal } from "react-dom";
-import PlayerModal from "../../compoments/PlayerModal";
+import PlayerModal from "./components/PlayerModal";
 import { Player } from "../../types/Player";
+import FullScreenView from "./components/FullScreenView";
 import "./TeamOfTheWeek.css";
 
 function TeamOfTheWeek() {
@@ -13,6 +14,7 @@ function TeamOfTheWeek() {
     const [selectedPlayer, setSelectedPlayer] = useState<string | null>(null);
     const [draggedPlayer, setDraggedPlayer] = useState<{player: Player, index: number, offsetX: number, offsetY: number} | null>(null);
     const [playersList, setPlayersList] = useState<Array<Player>>([]);
+    const [showFullScreen, setShowFullScreen] = useState(false);
     const [playersOfTheWeek, setPlayersOfTheWeek] = useState<Player[]>(
         Array.from({ length: 11 }, (_, index) => ({
             index: (index + 1),
@@ -159,7 +161,7 @@ function TeamOfTheWeek() {
         <div style={{ padding: "1rem" }}>
             <div style={{display: 'flex', alignItems: 'center', flexDirection: 'column'}}>
                 <h1>TEAM OF THE WEEK</h1>
-                <p>Click on a player to select them, or drag them to any position on the field</p>
+                <p style={{textAlign: 'center'}}>Click on a player to select them, or drag them to any position on the field</p>
             </div>
             
             <div className="players-section">
@@ -194,9 +196,17 @@ function TeamOfTheWeek() {
             </div>
             <div className="submit-button-container">
                 <Button text="Submit Team" clickFunction={handleSubmitTeamOfTheWeek}/>
+                <Button text="Show Team" clickFunction={() => setShowFullScreen(true)}/>
             </div>
             {showModal && createPortal(
                 <PlayerModal onClose={() => setShowModal(false)} addPlayer={addPlayer} playersList={playersList}/>,
+                document.body
+            )}
+            {showFullScreen && createPortal(
+                <FullScreenView 
+                    players={playersOfTheWeek} 
+                    onClose={() => setShowFullScreen(false)}
+                />,
                 document.body
             )}
         </div>
