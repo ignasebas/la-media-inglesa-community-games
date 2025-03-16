@@ -22,9 +22,9 @@ function TeamOfTheWeek() {
             position: "",
             // Initial positions for the team of the week
             x: index < 1 ? 50 : // Goalkeeper
-                index < 5 ? (index - 1) * 25 + 12.5 : // Defenders
-                index < 9 ? (index - 5) * 25 + 12.5 : // Midfielders
-                (index - 9) * 50 + 25, // Forwards
+                index < 5 ? (index - 1) * 20 + 20 : // Defenders
+                index < 9 ? (index - 5) * 20 + 20 : // Midfielders
+                (index - 9) * 40 + 30, // Forwards
             y: index < 1 ? 85 : // Goalkeeper   
                 index < 5 ? 65 : // Defenders
                 index < 9 ? 40 : // Midfielders
