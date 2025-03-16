@@ -5,6 +5,8 @@ import Predictions from './features/predictions/Predictions'
 import TeamOfTheWeek from './features/team_of_the_week/TeamOfTheWeek'
 import Home from './compoments/Home'
 import { AuthProvider } from './context/AuthContext'
+import { Results } from './features/results/Results'
+import { MatchdayResults } from './features/results/MatchdayResults'
 
 function App() {
 	return (
@@ -15,6 +17,8 @@ function App() {
 						<Route path="/" element={<Home/>}/>
 						<Route path="/predictions" element={<Predictions/>}/>
 						<Route path="/team-of-the-week" element={<TeamOfTheWeek/>}/>
+						<Route path="/results" element={<Results/>}/>
+						<Route path="/results/:id" element={<MatchdayResults/>}/>
 					</Routes>
 				</Layout>
 			</BrowserRouter>

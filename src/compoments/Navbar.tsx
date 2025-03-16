@@ -34,6 +34,13 @@ function Navbar() {
                         TEAM OF THE WEEK
                     </Link>
                     <Link 
+                        to="/results" 
+                        className="navbar-link"
+                        onClick={() => setIsOpen(false)}
+                    >
+                        RESULTS
+                    </Link>
+                    <Link 
                         to="/predictions" 
                         className="navbar-link"
                         onClick={() => setIsOpen(false)}
