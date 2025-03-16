@@ -1,12 +1,5 @@
 import { useState } from "react";
-
-interface Player {
-    index?: number;
-    id: string;
-    name: string;
-    position?: string;
-    image?: string;
-}
+import { Player } from "../types/Player";
 
 interface PlayerModalProps {
     onClose: () => void;
@@ -36,7 +29,6 @@ function PlayerModal ({ onClose, addPlayer, playersList}: PlayerModalProps) {
 
     const handleAddPlayer = (addedPlayer: Player) => {
         addPlayer(addedPlayer);
-        
     }
 
     console.log("Players List: ", playersList)

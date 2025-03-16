@@ -3,35 +3,34 @@ import Button from "../../compoments/Button";
 import PlayerIcon from "../../compoments/PlayerIcon";
 import { createPortal } from "react-dom";
 import PlayerModal from "../../compoments/PlayerModal";
+import { Player } from "../../types/Player";
 import "./TeamOfTheWeek.css";
-
-interface Formation {
-    strikers: number;
-    midfielders: number;
-    defenders: number;
-    goalkeepers: number;
-}
-interface Player {
-    index?: number;
-    id: string;
-    name: string;
-    position?: string;
-    image?: string;
-}
 
 function TeamOfTheWeek() {
     const [loading, setLoading] = useState<boolean>(true);
     const [error, setError] = useState<string | null>(null);
     const [showModal, setShowModal] = useState(false);
     const [selectedPlayer, setSelectedPlayer] = useState<string | null>(null);
-    const [numberOfPlayers, setNumberOfPlayers] = useState<Formation>({
-        strikers: 2,
-        midfielders: 4,
-        defenders: 4,
-        goalkeepers: 1
-    });
-
+    const [draggedPlayer, setDraggedPlayer] = useState<{player: Player, index: number, offsetX: number, offsetY: number} | null>(null);
     const [playersList, setPlayersList] = useState<Array<Player>>([]);
+    const [playersOfTheWeek, setPlayersOfTheWeek] = useState<Player[]>(
+        Array.from({ length: 11 }, (_, index) => ({
+            index: (index + 1),
+            id: "",
+            name: "",
+            image: "",
+            position: "",
+            // Initial positions for the team of the week
+            x: index < 1 ? 50 : // Goalkeeper
+                index < 5 ? (index - 1) * 25 + 12.5 : // Defenders
+                index < 9 ? (index - 5) * 25 + 12.5 : // Midfielders
+                (index - 9) * 50 + 25, // Forwards
+            y: index < 1 ? 85 : // Goalkeeper   
+                index < 5 ? 65 : // Defenders
+                index < 9 ? 40 : // Midfielders
+                15, // Forwards
+        }))
+    );
 
     useEffect(() => {
         const fetchPlayers = async () => {
@@ -53,65 +52,35 @@ function TeamOfTheWeek() {
 
         fetchPlayers();
     }, [])
-    const [playersOfTheWeek, setPlayersOfTheWeek] = useState<Player[]>(
-        Array.from({ length: 11 }, (_, index) => ({
-            index: (index + 1),
-            id: "",
-            name: "",
-            image: "",
-            position: "", 
-        }))
-    );
 
-    const handleNumberOfPlayers = (position: "strikers" | "midfielders" | "defenders" | "goalkeepers", number: number) => {
-        if (number < 0) {
-          console.log("Number of players must be positive");
-          return;
-        }
-        
-        // Si es portero, siempre debe ser 1
-        if (position === "goalkeepers") {
-            return;
-        }
-
-        const currentTotal = numberOfPlayers.strikers + numberOfPlayers.midfielders + numberOfPlayers.defenders + 1; // Siempre 1 portero
-        const newTotal = currentTotal - numberOfPlayers[position] + number;
-        if (newTotal > 11) {
-          console.log("Total number of players must be 11");
-          return;
-        }
-        
-        const formation = { ...numberOfPlayers, [position]: number };
-        setNumberOfPlayers(formation);
-        console.log("Formation: ", formation);
-    };
-      
     const handleModalSelection = (value:boolean, positionIndex: string) => {
         setSelectedPlayer(positionIndex);
-        console.log(positionIndex)
         setShowModal(value);
     }
 
     const handleSubmitTeamOfTheWeek = () => {
         console.log("Team of the week submitted")
         console.log(playersOfTheWeek)
-        console.log(numberOfPlayers)
     }
     
     const addPlayer = (playerData: Player) => {    
         if (selectedPlayer !== null) {
             const index = parseInt(selectedPlayer, 10) - 1;
+            const currentPlayer = playersOfTheWeek[index];
     
             setPlayersOfTheWeek((prevPlayers) => {
                 const updatedPlayers = [...prevPlayers];
-                const previousPlayer = updatedPlayers[index];
-    
-                updatedPlayers[index] = playerData;
+                const newPlayer = {
+                    ...playerData,
+                    x: currentPlayer.x,
+                    y: currentPlayer.y
+                };
+                updatedPlayers[index] = newPlayer;
     
                 setPlayersList((prevList) => {
                     let newList = prevList.filter((player) => player.id !== playerData.id);
-                    if (previousPlayer && previousPlayer.id && !prevList.some(p => p.id === previousPlayer.id)) {
-                        newList = [...newList, previousPlayer];
+                    if (currentPlayer && currentPlayer.id && !prevList.some(p => p.id === currentPlayer.id)) {
+                        newList = [...newList, currentPlayer];
                     }
                     return newList;
                 });
@@ -122,26 +91,65 @@ function TeamOfTheWeek() {
             setShowModal(false);
         }
     };
-    
-    const handleIncrement = (position: "strikers" | "midfielders" | "defenders" | "goalkeepers") => {
-        const currentValue = numberOfPlayers[position];
-        handleNumberOfPlayers(position, currentValue + 1);
-    };
 
-    const handleDecrement = (position: "strikers" | "midfielders" | "defenders" | "goalkeepers") => {
-        const currentValue = numberOfPlayers[position];
-        if (currentValue > 0) {
-            handleNumberOfPlayers(position, currentValue - 1);
+    const handleDragStart = (e: React.DragEvent<HTMLDivElement>, player: Player, index: number) => {
+        // Prevent dragging the goalkeeper (index 0)
+        if (index === 0) {
+            e.preventDefault();
+            return;
         }
+        
+        const rect = e.currentTarget.getBoundingClientRect();
+        const offsetX = e.clientX - (rect.left + rect.width / 2);
+        const offsetY = e.clientY - (rect.top + rect.height / 2);
+        
+        setDraggedPlayer({ player, index, offsetX, offsetY });
+        const target = e.currentTarget as HTMLDivElement;
+        target.classList.add('dragging');
     };
 
-    const getTotalPlayers = () => {
-        return numberOfPlayers.strikers + numberOfPlayers.midfielders + numberOfPlayers.defenders + numberOfPlayers.goalkeepers;
+    const handleDragEnd = (e: React.DragEvent<HTMLDivElement>) => {
+        const target = e.currentTarget as HTMLDivElement;
+        target.classList.remove('dragging');
+        setDraggedPlayer(null);
     };
 
-    const isIncrementDisabled = (position: "strikers" | "midfielders" | "defenders" | "goalkeepers") => {
-        const total = getTotalPlayers();
-        return total >= 11 || (position === "goalkeepers" && numberOfPlayers[position] >= 1);
+    const handleFieldDragOver = (e: React.DragEvent<HTMLDivElement>) => {
+        e.preventDefault();
+        e.currentTarget.classList.add('field-drag-over');
+    };
+
+    const handleFieldDragLeave = (e: React.DragEvent<HTMLDivElement>) => {
+        e.currentTarget.classList.remove('field-drag-over');
+    };
+
+    const calculatePosition = (e: React.DragEvent<HTMLDivElement>, containerRef: HTMLDivElement) => {
+        if (!draggedPlayer) return { x: 0, y: 0 };
+        
+        const rect = containerRef.getBoundingClientRect();
+        const x = ((e.clientX - draggedPlayer.offsetX - rect.left) / rect.width) * 100;
+        const y = ((e.clientY - draggedPlayer.offsetY - rect.top) / rect.height) * 100;
+        return { x: Math.max(0, Math.min(100, x)), y: Math.max(0, Math.min(100, y)) };
+    };
+
+    const handleFieldDrop = (e: React.DragEvent<HTMLDivElement>) => {
+        e.preventDefault();
+        e.currentTarget.classList.remove('field-drag-over');
+        
+        if (!draggedPlayer) return;
+        
+        // Calculate the relative position in percentages
+        const { x, y } = calculatePosition(e, e.currentTarget);
+        
+        setPlayersOfTheWeek((prevPlayers) => {
+            const updatedPlayers = [...prevPlayers];
+            updatedPlayers[draggedPlayer.index] = {
+                ...draggedPlayer.player,
+                x,
+                y
+            };
+            return updatedPlayers;
+        });
     };
 
     if (loading) return <p>Loading players...</p>;
@@ -151,166 +159,37 @@ function TeamOfTheWeek() {
         <div style={{ padding: "1rem" }}>
             <div style={{display: 'flex', alignItems: 'center', flexDirection: 'column'}}>
                 <h1>TEAM OF THE WEEK</h1>
-                <p>Choose your team of the week</p>
+                <p>Click on a player to select them, or drag them to any position on the field</p>
             </div>
             
-            <div className="team-of-the-week-container">
-                <div className="formation-section">
-                    <h2>FORMATION</h2>
-                    <p>Select how many players will be in each position</p>
-                    <div className="formation-input-group">
-                        <h4>Strikers</h4>
-                        <div className="formation-input-controls">
-                            <button 
-                                className="number-control-button"
-                                onClick={() => handleDecrement("strikers")}
-                                disabled={numberOfPlayers.strikers <= 0}
-                            >
-                                -
-                            </button>
-                            <input 
-                                type="number" 
-                                value={numberOfPlayers.strikers} 
-                                onChange={(e) => handleNumberOfPlayers("strikers", Number(e.target.value))}
-                                min="0"
-                                max="5"
-                            />
-                            <button 
-                                className="number-control-button"
-                                onClick={() => handleIncrement("strikers")}
-                                disabled={isIncrementDisabled("strikers")}
-                            >
-                                +
-                            </button>
-                        </div>
-                    </div>
-                    <div className="formation-input-group">
-                        <h4>Midfielders</h4>
-                        <div className="formation-input-controls">
-                            <button 
-                                className="number-control-button"
-                                onClick={() => handleDecrement("midfielders")}
-                                disabled={numberOfPlayers.midfielders <= 0}
-                            >
-                                -
-                            </button>
-                            <input 
-                                type="number" 
-                                value={numberOfPlayers.midfielders} 
-                                onChange={(e) => handleNumberOfPlayers("midfielders", Number(e.target.value))}
-                                min="0"
-                                max="5"
-                            />
-                            <button 
-                                className="number-control-button"
-                                onClick={() => handleIncrement("midfielders")}
-                                disabled={isIncrementDisabled("midfielders")}
-                            >
-                                +
-                            </button>
-                        </div>
-                    </div>
-                    <div className="formation-input-group">
-                        <h4>Defenders</h4>
-                        <div className="formation-input-controls">
-                            <button 
-                                className="number-control-button"
-                                onClick={() => handleDecrement("defenders")}
-                                disabled={numberOfPlayers.defenders <= 0}
-                            >
-                                -
-                            </button>
-                            <input 
-                                type="number" 
-                                value={numberOfPlayers.defenders} 
-                                onChange={(e) => handleNumberOfPlayers("defenders", Number(e.target.value))}
-                                min="0"
-                                max="5"
-                            />
-                            <button 
-                                className="number-control-button"
-                                onClick={() => handleIncrement("defenders")}
-                                disabled={isIncrementDisabled("defenders")}
-                            >
-                                +
-                            </button>
-                        </div>
-                    </div>
-                    <div className="formation-input-group">
-                        <h4>Goalkeeper</h4>
-                        <div className="formation-input-controls goalkeeper">
-                            <button 
-                                className="number-control-button"
-                                onClick={() => handleDecrement("defenders")}
-                                disabled
-                            >
-                                -
-                            </button>
-                            <input 
-                                type="number" 
-                                value={1}
-                                readOnly
-                                disabled
-                                className="goalkeeper-input"
-                            />
-                            <button 
-                                className="number-control-button"
-                                onClick={() => handleIncrement("defenders")}
-                                disabled
-                            >
-                                +
-                            </button>
-                        </div>
-                    </div>
-                    <p style={{ textAlign: 'center', marginTop: '1rem' }}>
-                        Total Players: {getTotalPlayers()}/11
-                    </p>
-                </div>
-                <div className="players-section">
-                    <h2>PLAYERS</h2>
-                    <p>Choose your players for each position by clicking on the player icon</p>
-                    <div className="players-container">
-                        <div className="players-row">
-                            {Array.from({ length: numberOfPlayers.strikers }, (_, index) => (
-                                <PlayerIcon 
-                                    key={index} 
-                                    positionIndex={String(index + 1 + 1 + numberOfPlayers.defenders + numberOfPlayers.midfielders)} 
-                                    player={playersOfTheWeek[index + 1 + numberOfPlayers.defenders + numberOfPlayers.midfielders]} 
-                                    handleModalSelection={handleModalSelection}
-                                />
-                            ))}
-                        </div>
-
-                        <div className="players-row">
-                            {Array.from({ length: numberOfPlayers.midfielders }, (_, index) => (
-                                <PlayerIcon 
-                                    key={index} 
-                                    positionIndex={String(index + 1 + 1 + numberOfPlayers.defenders)} 
-                                    player={playersOfTheWeek[index + 1 + numberOfPlayers.defenders]} 
-                                    handleModalSelection={handleModalSelection}
-                                />
-                            ))}
-                        </div>
-
-                        <div className="players-row">
-                            {Array.from({ length: numberOfPlayers.defenders }, (_, index) => (
-                                <PlayerIcon 
-                                    key={index} 
-                                    positionIndex={String(index + 1 + 1)} 
-                                    player={playersOfTheWeek[index + 1]} 
-                                    handleModalSelection={handleModalSelection}
-                                />
-                            ))}
-                        </div>
-                        
-                        <div className="players-row">
+            <div className="players-section">
+                <div 
+                    className="players-container"
+                    onDragOver={handleFieldDragOver}
+                    onDragLeave={handleFieldDragLeave}
+                    onDrop={handleFieldDrop}
+                >
+                    {playersOfTheWeek.map((player, index) => (
+                        <div 
+                            key={index} 
+                            className="player-position"
+                            style={{
+                                position: 'absolute',
+                                left: `${player.x}%`,
+                                top: `${player.y}%`,
+                                transform: 'translate(-50%, -50%)'
+                            }}
+                            onDragEnd={handleDragEnd}
+                        >
                             <PlayerIcon 
-                                positionIndex={"1"} 
-                                player={playersOfTheWeek[0]} 
+                                positionIndex={String(index + 1)}
+                                player={player}
                                 handleModalSelection={handleModalSelection}
+                                onDragStart={(e) => handleDragStart(e, player, index)}
+                                isGoalkeeper={index === 0}
                             />
                         </div>
-                    </div>
+                    ))}
                 </div>
             </div>
             <div className="submit-button-container">

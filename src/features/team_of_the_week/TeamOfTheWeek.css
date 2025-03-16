@@ -26,151 +26,78 @@
     font-size: 0.9rem;
 }
 
-.team-of-the-week-container {
-    display: flex;
-    justify-content: space-between;
-    gap: 2rem;
-    width: 100%;
-    border-radius: 12px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
-}
-
-.formation-section {
-    display: flex;
-    flex-direction: column;
-    width: 350px;
-    flex-shrink: 0;
-    background: #f8f9fa;
-    padding: 1rem;
-    border-radius: 8px;
-    border: 2px solid #debe03;
-}
-
-.formation-input-group {
-    display: flex;
-    align-items: center;
-    padding: 1rem;
-    border-radius: 8px;
-    margin-bottom: 1rem;
-    transition: all 0.2s ease;
-    border: 1px solid transparent;
-}
-
-.formation-input-group h4 {
-    min-width: 100px;
-    font-family: var(--font-family-heading);
-    font-size: 1rem;
-    color: #000000;
-    margin: 0;
-}
-
-.formation-input-controls {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    margin-left: auto;
-}
-
-.formation-input-controls.goalkeeper {
-    justify-content: flex-end;
-}
-
-.formation-input-group input {
-    width: 60px;
-    padding: 0.5rem;
-    text-align: center;
-    border: 2px solid #debe03;
-    border-radius: 4px;
-    font-family: var(--font-family-base);
-    font-size: 1rem;
-    font-weight: 600;
-    color: #000000;
-}
-
-.formation-input-group input.goalkeeper-input {
-    background: #f8f9fa;
-    border-color: #cccccc;
-    color: #666666;
-    cursor: not-allowed;
-}
-
-.formation-input-group input.goalkeeper-input:hover {
-    border-color: #cccccc;
-}
-
-.formation-input-group input:focus {
-    outline: none;
-    border-color: #000000;
-}
-
-.formation-input-group input::-webkit-inner-spin-button,
-.formation-input-group input::-webkit-outer-spin-button {
-    -webkit-appearance: none;
-    margin: 0;
-}
-
-.formation-input-group input[type=number] {
-    -moz-appearance: textfield;
-}
-
-.number-control-button {
-    background: #debe03;
-    border: none;
-    width: 28px;
-    height: 28px;
-    border-radius: 4px;
-    color: black;
-    font-weight: bold;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: all 0.2s ease;
-}
-
-.number-control-button:hover {
-    background: #000000;
-    color: #debe03;
-}
-
-.number-control-button:disabled {
-    background: #cccccc;
-    cursor: not-allowed;
-    color: #666666;
-}
-
 .players-section {
     display: flex;
     flex-direction: column;
     flex-grow: 1;
     background: #f8f9fa;
-    padding: 1.5rem;
     border-radius: 8px;
 }
 
 .players-container {
-    flex-grow: 0;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
+    position: relative;
     width: 750px;
+    height: 500px;
     background-image: url('https://www.pikpng.com/pngl/b/524-5242355_la-liga-soccer-specific-stadium-clipart.png');
     background-size: contain;
     background-position: center;
     background-repeat: no-repeat;
-    position: relative;
     margin: 0 auto;
+    border-radius: 8px;
+    cursor: crosshair;
 }
 
-.players-row {
-    display: flex;
-    width: 100%;
-    justify-content: space-evenly;
-    align-items: center;
-    margin-bottom: 0;
-    padding: 0.5rem;
+.players-container.field-drag-over {
+    background-color: rgba(222, 189, 3, 0.25);
+}
+
+.players-container::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(255, 255, 255, 0.1);
+    pointer-events: none;
     border-radius: 8px;
-    position: relative;
+}
+
+.player-position {
+    transition: transform 0.2s ease;
+    position: absolute;
+    transform-origin: center;
+    z-index: 1;
+    user-select: none;
+}
+
+.player-position:hover {
+    transform: translate(-50%, -50%) scale(1.1) !important;
+    z-index: 2;
+}
+
+.player-position[draggable="true"] {
+    cursor: move;
+}
+
+.player-position[draggable="true"]:active {
+    cursor: grabbing;
+    opacity: 0.8;
+}
+
+.player-position.dragging {
+    opacity: 0.5;
+    pointer-events: none;
+}
+
+.player-position.drag-over {
+    transform: translate(-50%, -50%) scale(1.1) !important;
+    z-index: 3;
+}
+
+.player-position:hover .player-icon,
+.player-position:hover .empty-player-icon {
+    background-color: rgba(0, 0, 0, 0.7);
 }
 
 .submit-button-container {
@@ -199,42 +126,9 @@
         gap: 1.5rem;
     }
 
-    .formation-section {
-        width: auto;
-    }
-
-    .formation-section h2, .formation-section p{
-        text-align: center;
-    }
-
-    .formation-input-group {
-        padding: 0.75rem;
-    }
-
-    .formation-input-group h4 {
-        font-size: 0.9rem;
-    }
-
-    .formation-input-controls {
-        gap: 0.25rem;
-    }
-
-    .number-control-button {
-        width: 24px;
-        height: 24px;
-    }
-
-    .formation-input-group input {
-        width: 50px;
-        padding: 0.4rem;
-        font-size: 0.9rem;
-    }
-
     .players-container {
         width: 100%;
-        height: auto;
-        aspect-ratio: 3/2;
-        min-height: 300px;
+        height: 400px;
     }
 }
 
@@ -251,12 +145,7 @@
         gap: 1rem;
     }
 
-    .formation-input-group {
-        padding: 0.5rem;
-    }
-
-    .formation-input-group h4 {
-        min-width: 80px;
-        font-size: 0.85rem;
+    .players-container {
+        height: 300px;
     }
 } 
