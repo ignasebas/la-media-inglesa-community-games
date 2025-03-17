@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import Button from "../../compoments/Button";
+import Button from "../../components/Button";
 import PlayerIcon from "./components/PlayerIcon";
 import { createPortal } from "react-dom";
 import PlayerModal from "./components/PlayerModal";

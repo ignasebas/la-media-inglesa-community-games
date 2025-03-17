@@ -6,6 +6,9 @@
     padding: 12px 24px;
     border: none;
     transition: all 0.3s ease;
+    display: block;
+    width: 100%;
+    text-align: center;
 }
 
 .button:hover {
@@ -23,6 +26,20 @@
     border: none;
     cursor: pointer;
     transition: all 0.3s ease;
+}
+
+.button.full-width {
+    display: block;
+    width: 100%;
+    text-align: center;
+    box-sizing: border-box;
+}
+
+.secondary-button.full-width {
+    display: block;
+    width: 100%;
+    text-align: center;
+    box-sizing: border-box;
 }
 
 .secondary-button:hover {

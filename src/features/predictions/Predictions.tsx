@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
-import MatchCard from "../../compoments/MatchCard";
+import MatchCard from "../../components/MatchCard";
 import "./Predictions.css";
-import Button from "../../compoments/Button";
+import Button from "../../components/Button";
 
 interface Fixture {
     id: string;

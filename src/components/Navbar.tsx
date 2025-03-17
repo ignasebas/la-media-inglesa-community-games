@@ -1,12 +1,18 @@
-import { Link } from "react-router-dom"
-import { useState } from "react"
+import { Link, useLocation } from "react-router-dom"
+import { useState, useEffect } from "react"
 import './Navbar.css'
 import { useAuth } from "../context/AuthContext"
 
 function Navbar() {
     const [isOpen, setIsOpen] = useState(false)
     const [showDropdown, setShowDropdown] = useState(false)
-    const { isAuthenticated, logout } = useAuth()
+    const { isAuthenticated, logout, username } = useAuth()
+    const location = useLocation()
+
+    useEffect(() => {
+        setShowDropdown(false)
+        setIsOpen(false)
+    }, [location])
 
     const toggleMenu = () => {
         setIsOpen(!isOpen)
@@ -54,7 +60,7 @@ function Navbar() {
                             className="profile-button"
                             onClick={handleProfileClick}
                         >
-                            PROFILE
+                            {isAuthenticated ? username?.toUpperCase() : 'PROFILE'}
                         </button>
                         {showDropdown && (
                             <div className="profile-dropdown">
@@ -71,9 +77,14 @@ function Navbar() {
                                         </button>
                                     </>
                                 ) : (
-                                    <Link to="/login" className="dropdown-item">
-                                        LOGIN
-                                    </Link>
+                                    <>
+                                        <Link to="/login" className="dropdown-item">
+                                            LOGIN
+                                        </Link>
+                                        <Link to="/register" className="dropdown-item">
+                                            REGISTER
+                                        </Link>
+                                    </>
                                 )}
                             </div>
                         )}

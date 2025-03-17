@@ -69,6 +69,8 @@ function Home() {
                                 id={fixture.id}
                                 home={fixture.homeTeam}
                                 away={fixture.awayTeam}
+                                date={fixture.date}
+                                hour={fixture.hour}
                                 odds={fixture.odds}
                             />
                         ))}
